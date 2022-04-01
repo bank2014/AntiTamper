@@ -8,8 +8,31 @@
 #define PCH_H
 
 // 여기에 미리 컴파일하려는 헤더 추가
-#include <Windows.h>
+// 자주 사용할 헤더
+#include <windows.h>
+#include <tchar.h>
+#include <memory>
+#include <string>
+#include <vector>
+#include <array>
+#include <list>
+#include <map>
 using namespace std;
 
+using int8 = __int8;
+using int16 = __int16;
+using int32 = __int32;
+using int64 = __int64;
+using uint8 = unsigned __int8;
+using uint16 = unsigned __int16;
+using uint32 = unsigned __int32;
+using uint64 = unsigned __int64;
+
+struct WindowInfo
+{
+	HWND	hwnd; //출력 윈도우 핸들
+	int32	width;
+	int32	height;
+};
 
 #endif //PCH_H
