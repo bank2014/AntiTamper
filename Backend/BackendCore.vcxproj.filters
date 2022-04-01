@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Features">
+      <UniqueIdentifier>{26aea3e5-0797-4f52-8ee2-50f09fd81b77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{a867e4fb-277d-495b-a6d1-bf00ce926595}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BackendPch.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="BSODinducer.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="BackendCore.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BackendPch.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="BSODinducer.h">
+      <Filter>Features</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
