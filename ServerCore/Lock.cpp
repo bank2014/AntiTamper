@@ -40,9 +40,23 @@ void Lock::WriteLock(const char* name)
 	}
 }
 
+void Lock::WriteUnlock(const char* name)
+{
+#if _DEBUG
+	GDeadLockProfiler->PopLock(name);
+#endif
 
-// TODO W Unlock
-// 
+	// ReadLock 다 풀기 전에는 WriteUnlock 불가능.
+	if ((_lockFlag.load() & READ_COUNT_MASK) != 0)
+		CRASH("INVALID_UNLOCK_ORDER");
+
+	const int32 lockCount = --_writeCount;
+	if (lockCount == 0)
+		_lockFlag.store(EMPTY_FLAG);
+}
+
+
+
 // TODO R lock 
 // TODO R unlock
 
