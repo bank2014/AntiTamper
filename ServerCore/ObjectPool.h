@@ -19,7 +19,27 @@ public:
 		return memory;
 	}
 
-	// TODO
+	static void Push(Type* obj)
+	{
+		obj->~Type();
+#ifdef _STOMP
+		StompAllocator::Release(MemoryHeader::DetachHeader(obj));
+#else
+		s_pool.Push(MemoryHeader::DetachHeader(obj));
+#endif
+	}
 
+	static shared_ptr<Type> MakeShared()
+	{
+		shared_ptr<Type> ptr = { Pop(), Push };
+		return ptr;
+	}
+
+	// TODO
 };
 
+template<typename Type>
+int32 ObjectPool<Type>::s_allocSize = sizeof(Type) + sizeof(MemoryHeader);
+
+template<typename Type>
+MemoryPool ObjectPool<Type>::s_pool{ s_allocSize };
