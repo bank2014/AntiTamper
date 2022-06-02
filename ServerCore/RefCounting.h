@@ -40,9 +40,26 @@ public:
 	TSharedPtr(T* ptr) { Set(ptr); }
 	~TSharedPtr() { Release(); }
 
+	// 복사
+	TSharedPtr(const TSharedPtr& rhs) { Set(rhs._ptr); }
+
 public:
 
 	bool IsNull() { return _ptr == nullptr; }
+	
+	// 복사 연산자
+	TSharedPtr& operator=(const TSharedPtr& rhs)
+	{
+		if (_ptr != rhs._ptr)
+		{
+			Release();
+			Set(rhs._ptr);
+		}
+		return *this;
+	}
+
+
+	// TODO - 이동, 상속관계 복사
 
 private:
 	inline void Set(T* ptr)
