@@ -12,7 +12,7 @@ class DeadLockProfiler
 public:
 	// TODO
 	void PushLock(const char* name);
-	void PopLock();
+	void PopLock(const char* name);
 	void CheckCycle();
 
 private:

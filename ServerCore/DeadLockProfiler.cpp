@@ -43,9 +43,18 @@ void DeadLockProfiler::PushLock(const char* name)
 	_lockStack.push(lockId);
 }
 
-void DeadLockProfiler::PopLock()
+void DeadLockProfiler::PopLock(const char* name)
 {
-	//TODO
+	LockGuard guard(_lock);
+
+	if (_lockStack.empty())
+		CRASH("MULTIPLE_UNLOCK");
+
+	int32 lockId = _nameToId[name];
+	if (_lockStack.top() != lockId)
+		CRASH("INVALID_UNLOCK");
+
+	_lockStack.pop();
 }
 
 void DeadLockProfiler::CheckCycle()
