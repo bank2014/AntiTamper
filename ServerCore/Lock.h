@@ -28,6 +28,7 @@ public:
     void WriteUnlock(const char* name);
 
     void ReadLock(const char* name);
+    void ReadUnlock(const char* name);
 private:
     Atomic<uint32> _lockFlag = EMPTY_FLAG;
     uint16 _writeCount = 0;

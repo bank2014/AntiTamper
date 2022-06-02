@@ -87,8 +87,13 @@ void Lock::ReadLock(const char* name)
 	}
 }
 
+void Lock::ReadUnlock(const char* name)
+{
+#if _DEBUG
+	GDeadLockProfiler->PopLock(name);
+#endif
 
-
-
-// TODO R unlock
+	if ((_lockFlag.fetch_sub(1) & READ_COUNT_MASK) == 0)
+		CRASH("MULTIPLE_UNLOCK");
+}
 
