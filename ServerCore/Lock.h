@@ -50,4 +50,13 @@ private:
     const char* _name;
 };
 
-//TODO Read 락가드
+class ReadLockGuard
+{
+public:
+    ReadLockGuard(Lock& lock, const char* name) : _lock(lock), _name(name) { _lock.ReadLock(name); }
+    ~ReadLockGuard() { _lock.ReadUnlock(_name); }
+
+private:
+    Lock& _lock;
+    const char* _name;
+};
