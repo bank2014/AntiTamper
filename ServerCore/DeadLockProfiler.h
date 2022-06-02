@@ -16,7 +16,7 @@ public:
 	void CheckCycle();
 
 private:
-	void Dfs();
+	void Dfs(int32 here);
 
 private:
 	unordered_map<const char*, int32>	_nameToId;
@@ -33,4 +33,3 @@ private:
 	vector<int32>	_parent;
 
 };
-
