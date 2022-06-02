@@ -14,13 +14,14 @@ public:
 	~ThreadManager();
 
 	void	Join();
-	// TODO launch
+	void	Launch(function<void(void)> callback);
 
 	static void InitTLS();
 	static void DestroyTLS();
 
 private:
 	vector<thread>	_threads;
-	
+	Mutex			_lock;
+
 };
 

@@ -28,7 +28,17 @@ void ThreadManager::Join()
 	_threads.clear();
 }
 
-// TODO launch 
+void ThreadManager::Launch(function<void(void)> callback)
+{
+	LockGuard guard(_lock);
+
+	_threads.push_back(thread([=]()
+		{
+			InitTLS();
+			callback();
+			DestroyTLS();
+		}));
+}
 
 void ThreadManager::InitTLS()
 {
