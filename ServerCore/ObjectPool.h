@@ -35,7 +35,10 @@ public:
 		return ptr;
 	}
 
-	// TODO
+private:
+
+	static int32		s_allocSize;
+	static MemoryPool	s_pool;
 };
 
 template<typename Type>
