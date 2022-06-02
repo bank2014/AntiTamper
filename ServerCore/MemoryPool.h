@@ -41,6 +41,8 @@ public:
 	MemoryPool(int32 allocSize);
 	~MemoryPool();
 
+	void			Push(MemoryHeader* ptr);
+
 private:
 	SLIST_HEADER	_header;
 	int32			_allocSize = 0;

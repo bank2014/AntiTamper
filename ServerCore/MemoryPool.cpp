@@ -16,3 +16,12 @@ MemoryPool::~MemoryPool()
 		::_aligned_free(memory);
 }
 
+void MemoryPool::Push(MemoryHeader* ptr)
+{
+	ptr->allocSize = 0;
+
+	::InterlockedPushEntrySList(&_header, static_cast<PSLIST_ENTRY>(ptr));
+
+	_useCount.fetch_sub(1);
+	_reserveCount.fetch_add(1);
+}
