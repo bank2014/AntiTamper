@@ -26,3 +26,41 @@ public:
 protected:
 	atomic<int32> _refCount;
 };
+
+
+/*---------------
+   SharedPtr
+----------------*/
+
+template<typename T>
+class TSharedPtr
+{
+public:
+	TSharedPtr() { }
+	TSharedPtr(T* ptr) { Set(ptr); }
+	~TSharedPtr() { Release(); }
+
+public:
+
+	bool IsNull() { return _ptr == nullptr; }
+
+private:
+	inline void Set(T* ptr)
+	{
+		_ptr = ptr;
+		if (ptr)
+			ptr->AddRef();
+	}
+
+	inline void Release()
+	{
+		if (_ptr != nullptr)
+		{
+			_ptr->ReleaseRef();
+			_ptr = nullptr;
+		}
+	}
+
+private:
+	T* _ptr = nullptr;
+};
