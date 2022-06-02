@@ -42,6 +42,7 @@ public:
 	~MemoryPool();
 
 	void			Push(MemoryHeader* ptr);
+	MemoryHeader*	Pop();
 
 private:
 	SLIST_HEADER	_header;
