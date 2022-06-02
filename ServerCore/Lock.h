@@ -32,4 +32,20 @@ private:
     uint16 _writeCount = 0;
 };
 
-//TODO Read & write 락가드
+
+/*----------------
+    LockGuards
+-----------------*/
+
+class WriteLockGuard
+{
+public:
+    WriteLockGuard(Lock& lock, const char* name) : _lock(lock), _name(name) { _lock.WriteLock(name); }
+    ~WriteLockGuard() { _lock.WriteUnlock(_name); }
+
+private:
+    Lock& _lock;
+    const char* _name;
+};
+
+//TODO Read 락가드
