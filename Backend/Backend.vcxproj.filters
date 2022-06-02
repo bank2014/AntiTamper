@@ -13,22 +13,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BackendPch.cpp">
+    <ClCompile Include="pch.cpp">
       <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="BSODinducer.cpp">
-      <Filter>Features</Filter>
     </ClCompile>
     <ClCompile Include="BackendCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BackendPch.h">
+    <ClInclude Include="pch.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="BSODinducer.h">
-      <Filter>Features</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
