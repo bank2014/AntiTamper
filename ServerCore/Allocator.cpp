@@ -35,3 +35,16 @@ void StompAllocator::Release(void* ptr)
 	::VirtualFree(reinterpret_cast<void*>(baseAddress), 0, MEM_RELEASE);
 }
 
+/*-------------------
+	PoolAllocator
+-------------------*/
+
+void* PoolAllocator::Alloc(int32 size)
+{
+	return GMemory->Allocate(size);
+}
+
+void PoolAllocator::Release(void* ptr)
+{
+	GMemory->Release(ptr);
+}
