@@ -1,34 +1,77 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{a57fa729-3707-4a3c-b085-c038363c5753}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Client">
+    <Filter Include="Main">
       <UniqueIdentifier>{f67eb3a8-b136-4c70-9165-083e71987f21}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Utils">
-      <UniqueIdentifier>{a57fa729-3707-4a3c-b085-c038363c5753}</UniqueIdentifier>
+    <Filter Include="Features">
+      <UniqueIdentifier>{1e892316-324f-4504-9645-a633e66ba571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Features\Detect_hypervisor">
+      <UniqueIdentifier>{1c962e8a-b075-4b2d-a1b5-544e289cc7ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Features\Anti_Debug">
+      <UniqueIdentifier>{013814d3-771a-4dba-8c59-1200bf1227ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
-      <Filter>소스 파일\Utils</Filter>
+      <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>소스 파일\Utils</Filter>
+    <ClInclude Include="dllExportHeaders.h">
+      <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>소스 파일\Utils</Filter>
+    <ClInclude Include="AlterApi.h">
+      <Filter>Features\Detect_hypervisor</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct.h">
+      <Filter>Features\Detect_hypervisor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp">
-      <Filter>소스 파일\Client</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>소스 파일\Utils</Filter>
+      <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="DetectHypervisor.cpp">
+      <Filter>Features\Detect_hypervisor</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="Detect_AntiVirus.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteMyself.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="BSOD.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="DetectBlackListedProcess.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="FetchUUID.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="Passive_Anti_Debug.cpp">
+      <Filter>Features\Anti_Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Detect_Debugging.cpp">
+      <Filter>Features\Anti_Debug</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="DetectHyp.asm">
+      <Filter>Features\Detect_hypervisor</Filter>
+    </MASM>
   </ItemGroup>
 </Project>
