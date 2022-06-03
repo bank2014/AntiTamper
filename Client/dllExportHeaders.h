@@ -11,6 +11,8 @@ AntiTamper Main loop
 ---------------*/
 
 extern "C" DECLSPEC int AntiTamper();
+extern "C" DECLSPEC void PermitExecution();
+extern "C" DECLSPEC void ViolationDetected();
 
 /*---------------
   Communication
@@ -24,5 +26,9 @@ extern "C" DECLSPEC void HandleError(const char* cause);
 	Protection
 ---------------*/
 
-extern "C" DECLSPEC void DetectHypervisor();
+extern "C" DECLSPEC char* DetectHypervisor();
 extern "C" DECLSPEC void BSOD();
+extern "C" DECLSPEC bool CheckBlacklistedPrograms();
+
+extern "C" DECLSPEC void HashHardwareID();
+extern "C" DECLSPEC std::string GetHardwareID();

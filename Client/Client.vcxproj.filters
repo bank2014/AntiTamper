@@ -13,9 +13,6 @@
     <Filter Include="Features\Detect_hypervisor">
       <UniqueIdentifier>{1c962e8a-b075-4b2d-a1b5-544e289cc7ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Features\Anti_Debug">
-      <UniqueIdentifier>{013814d3-771a-4dba-8c59-1200bf1227ac}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -24,7 +21,7 @@
     <ClInclude Include="dllExportHeaders.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="AlterApi.h">
+    <ClInclude Include="typecast.h">
       <Filter>Features\Detect_hypervisor</Filter>
     </ClInclude>
     <ClInclude Include="Struct.h">
@@ -62,11 +59,8 @@
     <ClCompile Include="FetchUUID.cpp">
       <Filter>Features</Filter>
     </ClCompile>
-    <ClCompile Include="Passive_Anti_Debug.cpp">
-      <Filter>Features\Anti_Debug</Filter>
-    </ClCompile>
     <ClCompile Include="Detect_Debugging.cpp">
-      <Filter>Features\Anti_Debug</Filter>
+      <Filter>Features</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

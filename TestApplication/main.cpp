@@ -16,7 +16,7 @@ int LoadAntiTamperDLL()
 		return 1;
 	}
 
-	LPCSTR name = "Heartbeat";
+	LPCSTR name = "AntiTamper";
 	fpInit Heartbeat = (fpInit)GetProcAddress(hDLL, name);
 	if (Heartbeat) Heartbeat();
 
@@ -27,8 +27,8 @@ int LoadAntiTamperDLL()
 
 int main()
 {
-	std::thread dllThread(LoadAntiTamperDLL);
-	dllThread;
+	std::thread ATthread(LoadAntiTamperDLL);
+	ATthread;
 
 	for (int i =0; i<100; ++i)
 	{
