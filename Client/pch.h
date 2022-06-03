@@ -1,5 +1,9 @@
 #pragma once
 
-#include "BackendPch.h"
+#ifdef _DEBUG
+#pragma comment(lib, "x64/Debug/ServerCore.lib")
+#else
+#pragma comment(lib, "x64/Release/ServerCore.lib")
+#endif
 
-// C 런타임 헤더 파일입니다.
+#include "CorePch.h"
