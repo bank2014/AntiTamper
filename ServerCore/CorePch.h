@@ -6,6 +6,7 @@
 #include "CoreGlobal.h"
 #include "Container.h"
 
+#define _WINSOCKAPI_
 #include <windows.h>
 #include <iostream>
 using namespace std;
