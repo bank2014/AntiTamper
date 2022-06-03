@@ -41,10 +41,10 @@
     <ClCompile Include="DetectHypervisor.cpp">
       <Filter>Features\Detect_hypervisor</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="AntiTamper.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="Client.cpp">
+    <ClCompile Include="Communication.cpp">
       <Filter>Features</Filter>
     </ClCompile>
     <ClCompile Include="Detect_AntiVirus.cpp">

@@ -101,7 +101,7 @@
   <ItemGroup>
     <ClCompile Include="Passive_Anti_Debug.cpp" />
     <ClCompile Include="BSOD.cpp" />
-    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Communication.cpp" />
     <ClCompile Include="DeleteMyself.cpp" />
     <ClCompile Include="DetectBlackListedProcess.cpp" />
     <ClCompile Include="DetectHypervisor.cpp" />
@@ -109,7 +109,7 @@
     <ClCompile Include="Detect_Debugging.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="FetchUUID.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="AntiTamper.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
