@@ -93,13 +93,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AlterApi.h" />
+    <ClInclude Include="typecast.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="dllExportHeaders.h" />
     <ClInclude Include="Struct.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Passive_Anti_Debug.cpp" />
     <ClCompile Include="BSOD.cpp" />
     <ClCompile Include="Communication.cpp" />
     <ClCompile Include="DeleteMyself.cpp" />
