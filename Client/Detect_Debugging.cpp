@@ -1,15 +1,49 @@
 #include "pch.h"
+#include "DetectHypervisor.h"
+#include "debugapi.h"
 
-
-bool AntiDebugEvasionDetection()
+//Trap flag check execute code - https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=kby88power&logNo=220946995468
+bool ResCheckTrapFlag()
 {
-	// isDebuggerPresent() 와 직접 구현한 디버거 탐지 함수의 return 값이 서로 다르면
-	// debugging 탐지를 우회한 것이라 판단하고 return 1
+	BOOL bDetected = FALSE;
+	INT singleStepCount = NULL;
+	CONTEXT ctx{};
+	ctx.ContextFlags = CONTEXT_DEBUG_REGISTERS;
+	GetThreadContext(GetCurrentThread(), &ctx);
+	ctx.Dr0 = (size_t)TrapflagCheck + 11;
+	ctx.Dr7 = 1;
+	SetThreadContext(GetCurrentThread(), &ctx);
+	__try
+	{
+		TrapflagCheck(); //trap flag
+	}
+	__except (DetectHyp::filter(GetExceptionCode(), GetExceptionInformation(), bDetected, singleStepCount))
+
+	{
+		if (singleStepCount != 1)
+		{
+			bDetected = true;
+		}
+	}
+	return bDetected;
 }
 
-bool CheckDebugingPresent()
+
+bool IsDebugging()
 {
-	// 5초마다 호출되는 함수
-	// debugging 상태인지 체크
-		// if yes -> return 1
+	uint8 status = 0;
+	status = ResCheckTrapFlag();
+	::IsDebuggerPresent();
+
+	switch (status)
+	{
+	case 1: // no evasion, only debugging attempt
+
+		break;
+	case 2: // evasion detected
+
+		break;
+	}
+
+	return false;
 }

@@ -18,13 +18,19 @@
     <ClInclude Include="pch.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="dllExportHeaders.h">
-      <Filter>Main</Filter>
-    </ClInclude>
     <ClInclude Include="typecast.h">
       <Filter>Features\Detect_hypervisor</Filter>
     </ClInclude>
     <ClInclude Include="Struct.h">
+      <Filter>Features\Detect_hypervisor</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiTamper.hpp">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="DLLExport.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="DetectHypervisor.h">
       <Filter>Features\Detect_hypervisor</Filter>
     </ClInclude>
   </ItemGroup>
@@ -40,9 +46,6 @@
     </ClCompile>
     <ClCompile Include="AntiTamper.cpp">
       <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Communication.cpp">
-      <Filter>Features</Filter>
     </ClCompile>
     <ClCompile Include="Detect_AntiVirus.cpp">
       <Filter>Features</Filter>
@@ -62,9 +65,15 @@
     <ClCompile Include="Detect_Debugging.cpp">
       <Filter>Features</Filter>
     </ClCompile>
+    <ClCompile Include="DLLExport.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckSecureBoot.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="DetectHyp.asm">
+    <MASM Include="AssemblyMacro.asm">
       <Filter>Features\Detect_hypervisor</Filter>
     </MASM>
   </ItemGroup>

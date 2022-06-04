@@ -3,7 +3,8 @@
 #include "struct.h"
 #include <intrin.h>
 
-namespace string_typeCast
+// 유틸리티
+namespace typeCast
 {
 	template <typename str_type>
 	inline  int str_length(str_type string) {
