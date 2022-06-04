@@ -10,6 +10,15 @@ const u_short SERVER_PORT = 7777;
 char Client_IP[16]{};
 
 
+struct Session
+{
+	SOCKET socket = INVALID_SOCKET;
+	char recvBuffer[BUFSIZE] = {};
+	char sendBuffer[BUFSIZE] = {};
+	int32 recvBytes = 0;
+	int32 sentBytes = 0;
+};
+
 
 
 int main()
@@ -49,7 +58,38 @@ int main()
 
 
 	// Main Thread = Accept 담당
+	while (true)
+	{
+		SOCKADDR_IN clientAddr{};
+		int32 addrLen = sizeof(clientAddr);
 
+		SOCKET clientSocket = ::accept(listenSocket, (SOCKADDR*)&clientAddr, &addrLen);
+		if (clientSocket == INVALID_SOCKET)
+			return 0;
+
+		Session* session = xnew<Session>();
+		session->socket = clientSocket;
+		sessionManager.push_back(session);
+
+		::inet_ntop(AF_INET, &clientAddr.sin_addr, Client_IP, sizeof(Client_IP));
+		cout << "[*] Client Connected! IP : " << Client_IP << endl;
+
+		// 소켓을 CP에 등록
+		::CreateIoCompletionPort((HANDLE)clientSocket, iocpHandle, /*Key*/(ULONG_PTR)session, 0);
+
+		WSABUF wsaBuf;
+		wsaBuf.buf = session->recvBuffer;
+		wsaBuf.len = BUFSIZE;
+
+		OverlappedEx* overlappedEx = new OverlappedEx();
+		overlappedEx->type = IO_TYPE::READ;
+
+		// ADD_REF
+		DWORD recvLen = 0;
+		DWORD flags = 0;
+		::WSARecv(clientSocket, &wsaBuf, 1, &recvLen, &flags, &overlappedEx->overlapped, NULL);
+
+	}
 
 	GThreadManager->Join();
 
