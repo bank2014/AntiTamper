@@ -3,24 +3,32 @@
 #pragma warning(disable: 4996)
 
 const PCSTR MY_IP = "127.0.0.1";	// 클라이언트 아이피 
-const u_short SERVER_PORT = 7777;
+const u_short SERVER_PORT = 7777;	// 서버 포트
+const int BUFFER_SIZE = 50;			// send & recv 버퍼 크기
+bool RECV_FROM_SERVER = true;		// 서버로 응답을 받는 걸 활성화할지 말지
 
 
 // 서버에 유저 HWID를 보냄
 void AntiTamper::SendUserInfo(SOCKET clientSocket)
 {
-	int32 wsaBufferLen = sizeof(int64);	// 버퍼 64byte
-	char sendBuffer[sizeof(int64)];
+
+	int32 wsaBufferLen = BUFFER_SIZE;
+	char sendBuffer[BUFFER_SIZE]{};
+
+	WSABUF wsaBuf{};
+	wsaBuf.buf = sendBuffer;
+	wsaBuf.len = wsaBufferLen;
+
 	strcpy(sendBuffer, GetHardwareID().c_str());
 
 	WSAEVENT wsaEvent = ::WSACreateEvent();
 	WSAOVERLAPPED overlapped = {};
 	overlapped.hEvent = wsaEvent;
 
-	// Send
-	WSABUF wsaBuf;
-	wsaBuf.buf = sendBuffer;
-	wsaBuf.len = wsaBufferLen;
+	
+	/*===============
+	sent HWID to server
+	=============== */
 
 	DWORD sendLen = 0;
 	DWORD flags = 0;
@@ -34,28 +42,56 @@ void AntiTamper::SendUserInfo(SOCKET clientSocket)
 		}
 		else
 		{
-			// 진짜 문제 있는 상황
-			exit(-1);
+			// 서버 연결 실패
+			MessageBox(NULL, L"Server connection failed", L"Warning", MB_OK);
+			exit(-2);
 		}
 	}
 
-	
-	char recvBuffer[1000];
-
-	int32 recvLen = ::recv(clientSocket, recvBuffer, sizeof(recvBuffer), 0);
-	if (recvLen <= 0)
-	{
-		int32 errCode = ::WSAGetLastError();
-		cout << "Recv ErrorCode : " << errCode << endl;
-	}
-	cout << "Recv Data! Data = " << recvBuffer << endl;
-
-
 
 #ifdef _DEBUG
-	cout << "[*] Data Sent : " << wsaBuf.buf << " Data Sent length : " << wsaBuf.len << endl;
+	cout << "[*]=== send HWID ===" << endl;
+	cout << "[-] HWID	: " << wsaBuf.buf << endl;
+	cout << "[-] length	: " << wsaBuf.len << endl;
 #endif
+	
+
+	/*===============
+	Recv reply from server
+	=============== */
+//
+//	if (RECV_FROM_SERVER)
+//	{
+//		char recvBuffer[BUFFER_SIZE]{};
+//
+//		wsaBuf.buf = recvBuffer;
+//		wsaBuf.len = BUFFER_SIZE;
+//		DWORD recvLen = 0;
+//		if (::WSARecv(clientSocket, &wsaBuf, 1, &recvLen, &flags, &overlapped, NULL))
+//		{
+//#ifdef _DEBUG
+//			if (strcmp(recvBuffer, "Yes") == 0)
+//			{
+//				cout << "[*] Reply from server	:" << "Yes" << endl;
+//				MessageBox(NULL, L"You are banned user", L"Warnning", MB_OK);
+//				AntiTamper::ViolationDetected(Moderate, clientSocket);
+//			}
+//			else if (strcmp(recvBuffer, "No") == 0)
+//				cout << "[*] Reply from server	:" << "No" << endl;
+//			else
+//			{
+//				cout << "Reply failed" << endl;
+//				//exit(-1);
+//			}
+//		}
+//#endif
+	//	
+	//}
 }
+
+
+
+
 
 // 비허가 행위가 감지된 경우
 void AntiTamper::ViolationDetected(int severity, SOCKET clientSocket)
@@ -86,6 +122,14 @@ void AntiTamper::ViolationDetected(int severity, SOCKET clientSocket)
 	}
 }
 
+
+
+
+
+
+
+
+
 /* 다음과 같은 조건을 만족할 때 응용 프로그램 실행을 허용
 	1. 서버와 연결된 경우
 	2. Blacklisted 프로그램이 컴퓨터에 없는 경우
@@ -96,13 +140,13 @@ void AntiTamper::ViolationDetected(int severity, SOCKET clientSocket)
 */
 void AntiTamper::ValidateExecution(SOCKET clientSocket, SOCKADDR_IN serverAddr, bool IsSendUserInfoTrue)
 {
+
 	// 1. 서버와 연결을 확인 (heartbeat)
-	// 6. UUID가 밴된 컴퓨터 환경이 아닌 경우 (한번만 확인)
 	while (true) // Connect
 	{
 		if (::connect(clientSocket, (SOCKADDR*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
 		{
-			// 연결 실패해도 계속 연결 시도
+			// 계속 연결 시도
 			if (::WSAGetLastError() == WSAEWOULDBLOCK)
 				continue;
 			// 이미 연결된 상태라면 break
@@ -112,13 +156,14 @@ void AntiTamper::ValidateExecution(SOCKET clientSocket, SOCKADDR_IN serverAddr, 
 			MessageBox(NULL, L"Server connection failed", L"Warning", MB_OK);
 			exit(-2);
 		}
-
-#ifdef _DEBUG
-		cout << "[*] Connection confirmed" << endl;
-#endif
-		if(IsSendUserInfoTrue)
-			AntiTamper::SendUserInfo(clientSocket); // 처음 접속시 HWID 전송
 	}
+
+
+	// 처음 접속시 HWID 전송
+	// 6. UUID가 밴된 컴퓨터 환경이 아닌 경우인지 한번만 확인
+	if(IsSendUserInfoTrue)
+		AntiTamper::SendUserInfo(clientSocket); 
+
 
 	//2. Blacklisted 프로그램 확인
 	if (IsBlacklistedProgramPresent())
@@ -152,6 +197,8 @@ void AntiTamper::ValidateExecution(SOCKET clientSocket, SOCKADDR_IN serverAddr, 
 
 }
 
+
+
 int AntiTamper::main()
 {	
 	// 소켓 초기화
@@ -174,7 +221,9 @@ int AntiTamper::main()
 	serverAddr.sin_port = ::htons(SERVER_PORT);
 
 
-	ValidateExecution(clientSocket, serverAddr, true); // 첫 검증
+
+	ValidateExecution(clientSocket, serverAddr, true); // 첫 검증은 sendUserInfo() 호출
+	RECV_FROM_SERVER = false; // 검증 후 밴된 유저인지 확인할 필요 없으므로 false
 
 	while (true) // main loop
 	{

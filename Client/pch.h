@@ -20,6 +20,11 @@ enum RequestType {
 	CheckBanStatus = 10101 // 서버에 밴 여부 확인 request 보냄
 };
 
+enum ReplyType {
+	Yes = 0,
+	No = 1
+};
+
 bool IsHypervisorPresent();
 
 void BSOD(uint32 delay);
@@ -35,3 +40,14 @@ bool IsBlacklistedProgramPresent();
 std::string GetHardwareID();
 
 bool IsSecureBootDisabled();
+
+// to_string 오류 - https://yyman.tistory.com/466
+namespace patch
+{
+	template < typename T > std::string to_string(const T& n)
+	{
+		std::ostringstream stm;
+		stm << n;
+		return stm.str();
+	}
+}
