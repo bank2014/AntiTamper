@@ -47,7 +47,12 @@ int hashDelete(char key[]) {
 	}
 	return 0;
 }
-	
+
+int hashAdd(char key[], int data) {
+ll h = hashGen(key);
+int cnt = MAX_TABLE;
+
+
 int main(void) {
 	while (true) {
 		char key[64];
