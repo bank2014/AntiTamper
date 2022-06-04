@@ -1,4 +1,5 @@
 #pragma once
+#include "pch.h"
 
 typedef struct _HV_DETAILS
 {

@@ -4,8 +4,9 @@
 #define SELF_REMOVE_STRING  TEXT("cmd.exe /C ping 1.1.1.1 -n 1 -w 3000 > Nul & Del /f /q \"%s\"")
 
 // exe 파일을 스스로 삭제
-void DeleteItself()
+void DeleteMyself()
 {
+
     TCHAR szModuleName[MAX_PATH];
     TCHAR szCmd[2 * MAX_PATH];
     STARTUPINFO si = { 0 };

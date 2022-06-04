@@ -1,13 +1,14 @@
 #include "pch.h"
-#include <string>
 
 
-void HashHardwareID()
+// get 메인보드 serial 
+string GetHardwareID()
 {
-	// 두 하드웨어 ID를 hashing
-}
+	string hwid = "unknown";
 
-std::string GetHardwareID()
-{
-	// 메인보드 serial 과 디스크 serial을 해싱하여 return
+	//// get
+
+	//if (hwid == null);
+
+	return hwid;
 }
