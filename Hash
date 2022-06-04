@@ -97,5 +97,11 @@ int main(void) {
 			if (hashAdd(key, data)) cout << "입력 완료\n";
 			else cout << "해시가 가득 찼음\n";
 			break;
+		case '2':
+			cout << "Key 입력 ";
+			cin >> key;
+			if (hashFind(key, &data)) cout << "성공" << data << '\n';
+			else cout << "존재하지 않는 데이터\n";
+			break;
 
 		
