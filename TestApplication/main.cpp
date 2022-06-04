@@ -2,39 +2,37 @@
 #include <windows.h>
 #include <thread>
 
-using std::cout;
-using std::endl;
+using namespace std;
 
-int LoadAntiTamperDLL()
+typedef int (*fp) ();
+HMODULE hDLL = LoadLibrary(L"Client.dll");
+
+int LoadDLL()
 {
-	typedef int (*fpInit) ();
-	HMODULE hDLL = LoadLibrary(L"Client.dll");
-
-	if (hDLL == NULL)
+	LPCSTR name = "AntiTampermain";
+	fp Entry = (fp)GetProcAddress(hDLL, name);
+	if (Entry == NULL)
 	{
-		std::cout << "Failed to load library.\n";
-		return 1;
+		cout << "Error code :" << GetLastError() << endl;
+		exit(-43);
 	}
 
-	LPCSTR name = "AntiTamper";
-	fpInit Heartbeat = (fpInit)GetProcAddress(hDLL, name);
-	if (Heartbeat) Heartbeat();
+	Entry();
 
 	FreeLibrary(hDLL);
-
 	return 0;
 }
 
 int main()
 {
-	std::thread ATthread(LoadAntiTamperDLL);
-	ATthread;
+	/*std::thread ATthread(LoadDLL);
+	ATthread;*/
+	LoadDLL();
 
 	for (int i =0; i<100; ++i)
 	{
-		cout << "===Application main loop: " << i << "===" << endl;
-
-		Sleep(500);
+		cout << "[main loop]"<< endl;
+		this_thread::sleep_for(0.5s);
 	}
 
 	return 0;
