@@ -13,6 +13,13 @@ typedef struct Hash {
 } Hash;
 Hash table[MAX_TABLE];
 
+ll hashGen(char key[]) {
+	ll h = 5381;
+	while (*key != '\0')
+		h = (((h << 5) + h) + *key++) % MAX_TABLE;
+	return h;
+}
+
 int main(void) {
 	while (true) {
 		char key[64];
