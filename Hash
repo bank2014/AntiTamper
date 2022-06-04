@@ -57,10 +57,16 @@ while (table[h].key[0] != 0 && cnt--) {
 			table[h].data = data;
 			return 1;
 		}
-		else cout << "[충돌 발생]\n";
+		else cout << "충돌 발생\n";
 		h = (h + 1) % MAX_TABLE;
 	}
 	
+	if (cnt == -1) return 0;
+	m_strcpy(table[h].key, key);
+	table[h].data = data;
+	return 1;
+}
+
 int main(void) {
 	while (true) {
 		char key[64];
