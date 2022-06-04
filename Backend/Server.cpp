@@ -19,6 +19,59 @@ struct Session
 	int32 sentBytes = 0;
 };
 
+enum IO_TYPE
+{
+	READ,
+	WRITE,
+	ACCEPT,
+	CONNECT,
+};
+
+struct OverlappedEx
+{
+	WSAOVERLAPPED overlapped = {};
+	int32 type = 0; // read, write, accept, connect ...
+};
+
+
+void WorkerThreadMain(HANDLE iocpHandle)
+{
+	bool REPLY = true;
+
+	while (true)
+	{
+		DWORD bytesTransferred = 0;
+		Session* session = nullptr;
+		OverlappedEx* overlappedEx = nullptr;
+
+		BOOL ret = ::GetQueuedCompletionStatus(iocpHandle, &bytesTransferred,
+			(ULONG_PTR*)&session, (LPOVERLAPPED*)&overlappedEx, INFINITE);
+
+		if (ret == FALSE || bytesTransferred == 0)
+		{
+			// 연결 끊김
+			continue;
+		}
+
+		ASSERT_CRASH(overlappedEx->type == IO_TYPE::READ);
+
+		WSABUF wsaBuf;
+		wsaBuf.buf = session->recvBuffer;
+		wsaBuf.len = BUFSIZE;
+
+		DWORD recvLen = 0;
+		DWORD flags = 0;
+		if (::WSARecv(session->socket, &wsaBuf, 1, &recvLen, &flags, &overlappedEx->overlapped, NULL))
+		{
+			cout << "[*] Received data from Client IP : " << Client_IP << endl;
+			cout << "Received data	: " << wsaBuf.buf << endl;
+			cout << "length	: " << bytesTransferred << endl;
+
+		}
+
+	}
+}
+
 
 
 int main()
