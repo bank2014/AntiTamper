@@ -28,6 +28,11 @@ int m_strcmp(const char* str1, const char* str2) {
 	return 0;
 }
 
+void m_strcpy(char dsc[], char src[]) {
+	while (*src != '\0')
+		*(dsc++) = *(src++);
+}
+
 int main(void) {
 	while (true) {
 		char key[64];
