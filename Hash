@@ -74,6 +74,13 @@ int hashFind(char key[], int* data) {
 	while (table[h].key[0] != 0 && cnt--) {
 		if (!m_strcmp(table[h].key, key)) {
 			*data = table[h].data;
+			return 1;
+		}
+		h = (h + 1) % MAX_TABLE;
+	}
+	return 0;
+}
+
 int main(void) {
 	while (true) {
 		char key[64];
