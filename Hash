@@ -7,7 +7,11 @@ typedef long long ll;
 
 using namespace std;
 
-
+typedef struct Hash {
+	char key[MAX_KEY + 1];
+	int data;
+} Hash;
+Hash table[MAX_TABLE];
 
 int main(void) {
 	while (true) {
