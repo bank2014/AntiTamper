@@ -1,6 +1,6 @@
 #include <iostream>
 
-#define MAX_TABLE	10
+#define MAX_TABLE	10 //숫자 바꿀 수 있음
 #define MAX_KEY		64
 
 typedef long long ll;
@@ -36,6 +36,17 @@ void m_strcpy(char dsc[], char src[]) {
 int hashDelete(char key[]) {
 	ll h = hashGen(key);
 	int cnt = MAX_TABLE;
+	
+	while (table[h].key[0] != 0 && cnt--) {
+		if (!m_strcmp(table[h].key, key)) {
+			table[h].key[0] = 0;
+			table[h].data = 0;
+			return 1;
+		}
+		h = (h + 1) % MAX_TABLE;
+	}
+	return 0;
+}
 	
 int main(void) {
 	while (true) {
