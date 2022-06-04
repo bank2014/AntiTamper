@@ -52,7 +52,15 @@ int hashAdd(char key[], int data) {
 ll h = hashGen(key);
 int cnt = MAX_TABLE;
 
-
+while (table[h].key[0] != 0 && cnt--) {
+		if (!m_strcmp(table[h].key, key)) {
+			table[h].data = data;
+			return 1;
+		}
+		else cout << "[충돌 발생]\n";
+		h = (h + 1) % MAX_TABLE;
+	}
+	
 int main(void) {
 	while (true) {
 		char key[64];
