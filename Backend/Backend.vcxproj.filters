@@ -16,7 +16,7 @@
     <ClCompile Include="pch.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Ban.h">
+    <ClCompile Include="Ban.cpp">
       <Filter>Features</Filter>
     </ClCompile>
     <ClCompile Include="Server.cpp">
