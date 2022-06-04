@@ -28,9 +28,7 @@ string ConvertBSTRToMBS(BSTR bstr)
 bool IsAntivirusDisabled()
 {
 #ifndef _DEBUG
-	string AVname = "unkown";
-	::CoInitializeEx(NULL, COINIT_MULTITHREADED);
-
+	std::string antivirus_name = "unkown";
 	HRESULT hr = ::CoInitializeSecurity(NULL, -1, NULL, NULL,
 		RPC_C_AUTHN_LEVEL_DEFAULT, RPC_C_IMP_LEVEL_IMPERSONATE,
 		NULL, EOAC_NONE, NULL);
@@ -53,15 +51,13 @@ bool IsAntivirusDisabled()
 	CComVariant cvtVersion;
 	hr = pWmiObject->Get(L"displayName", 0, &cvtVersion, 0, 0);
 
-	::CoUninitialize();
 
-	AVname = ConvertBSTRToMBS(cvtVersion.bstrVal);
+	 antivirus_name = ConvertBSTRToMBS(cvtVersion.bstrVal);
 
-	if (AVname == "unknown")
+	if (antivirus_name == "unknown")
 	{
 		return true;
 	}
-
 #endif
 	return false;
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "Struct.h"
+#include "typecast.h"
 
 EXTERN_C NTSTATUS NTAPI
 NtQuerySystemInformation(
@@ -48,7 +49,7 @@ namespace DetectHyp {
 
 	inline bool Rdtscp()
 	{
-		unsigned int  blabla = 0;
+		unsigned int  flag = 0;
 		DWORD tscp1 = 0;
 		DWORD tscp2 = 0;
 		DWORD avg = 0;
@@ -57,12 +58,12 @@ namespace DetectHyp {
 		if (DetectHyp::RdtscpSupport()) {
 			for (INT j = 0; j < 10; j++)
 			{
-				tscp1 = __rdtscp(&blabla);
+				tscp1 = __rdtscp(&flag);
 				//call 3 cpuid for normal detect
 				__cpuid(cpuid, 0);
 				__cpuid(cpuid, 0);
 				__cpuid(cpuid, 0);
-				tscp2 = __rdtscp(&blabla);
+				tscp2 = __rdtscp(&flag);
 				avg += tscp2 - tscp1;
 				if (avg < 500 && avg > 25)
 					return false;

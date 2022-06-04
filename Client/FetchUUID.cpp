@@ -4,7 +4,7 @@
 // get 메인보드 serial 
 string GetHardwareID()
 {
-	string hwid = "unknown";
+	string hwid = "unknown HWID";
 
 	//// get
 
