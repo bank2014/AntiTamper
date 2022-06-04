@@ -113,4 +113,13 @@ int main(void) {
 			for (int i = 0; i < MAX_TABLE; i++)
 				cout << "[" << i << "] " << table[i].key << ", " << table[i].data << '\n';
 			break;
-		
+		case '5':
+			return 0;
+		default:
+			cout << "다시 입력n";
+			continue;
+		}
+	}
+
+	return 0;
+}
