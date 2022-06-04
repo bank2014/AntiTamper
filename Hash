@@ -33,6 +33,10 @@ void m_strcpy(char dsc[], char src[]) {
 		*(dsc++) = *(src++);
 }
 
+int hashDelete(char key[]) {
+	ll h = hashGen(key);
+	int cnt = MAX_TABLE;
+	
 int main(void) {
 	while (true) {
 		char key[64];
