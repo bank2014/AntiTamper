@@ -109,5 +109,8 @@ int main(void) {
 			if (hashDelete(key)) cout << "삭제완료\n";
 			else cout << "존재하지 않는 데이터\n";
 			break;
-
+		case '4':
+			for (int i = 0; i < MAX_TABLE; i++)
+				cout << "[" << i << "] " << table[i].key << ", " << table[i].data << '\n';
+			break;
 		
