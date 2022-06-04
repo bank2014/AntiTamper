@@ -69,6 +69,37 @@ void WorkerThreadMain(HANDLE iocpHandle)
 
 		}
 
+		bool enable = true;
+		::setsockopt(session->socket, SOL_SOCKET, SO_KEEPALIVE, (char*)&enable, sizeof(enable));
+
+		/*===============
+		 Reply to Client
+		=============== */
+		if (REPLY) // client로 부터 Request: check ban status 받은 경우
+		{
+			char sendBuffer[BUFSIZE] = "No"; // 기본은 no
+			wsaBuf.buf = session->sendBuffer;
+			DWORD sendLen = 0;
+			if (::WSASend(session->socket, &wsaBuf, 1, &sendLen, flags, &overlappedEx->overlapped, nullptr) == SOCKET_ERROR)
+			{
+				if (::WSAGetLastError() == WSA_IO_PENDING)
+				{
+					// Pending
+					//::WSAWaitForMultipleEvents(1, &wsaEvent, TRUE, WSA_INFINITE, FALSE);
+
+					::WSAGetOverlappedResult(session->socket, &overlappedEx->overlapped, &sendLen, FALSE, &flags);
+				}
+				else
+				{
+					int32 errCode = ::WSAGetLastError();
+					cout << "[*] Reply failed. ErrorCode : " << errCode << endl;
+				}
+				cout << "[*] Reply success : " << wsaBuf.buf << endl;
+			}
+		}
+		REPLY = false;
+
+
 	}
 }
 
