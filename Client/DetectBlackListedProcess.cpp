@@ -1,8 +1,10 @@
 #include "pch.h"
 
-bool CheckBlacklistedPrograms()
+
+// 프로그램 목록 중 아래 string이 발견되면 return true
+bool IsBlacklistedProgramPresent()
 {
-	// 프로그램 목록 중 아래 string이 발견되면 return true
+	return false;
 }
 
 //BadProcessnameList.Add("ollydbg");

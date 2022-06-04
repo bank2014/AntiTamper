@@ -93,19 +93,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AntiTamper.hpp" />
+    <ClInclude Include="DetectHypervisor.h" />
     <ClInclude Include="typecast.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="dllExportHeaders.h" />
+    <ClInclude Include="DLLExport.h" />
     <ClInclude Include="Struct.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BSOD.cpp" />
-    <ClCompile Include="Communication.cpp" />
+    <ClCompile Include="CheckSecureBoot.cpp" />
     <ClCompile Include="DeleteMyself.cpp" />
     <ClCompile Include="DetectBlackListedProcess.cpp" />
     <ClCompile Include="DetectHypervisor.cpp" />
     <ClCompile Include="Detect_AntiVirus.cpp" />
     <ClCompile Include="Detect_Debugging.cpp" />
+    <ClCompile Include="DLLExport.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="FetchUUID.cpp" />
     <ClCompile Include="AntiTamper.cpp" />
@@ -115,7 +118,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="DetectHyp.asm">
+    <MASM Include="AssemblyMacro.asm">
       <FileType>Document</FileType>
     </MASM>
   </ItemGroup>
