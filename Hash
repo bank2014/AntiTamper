@@ -89,5 +89,13 @@ int main(void) {
 		char c;
 		cout << "\n1. 삽입\n2. 찾기\n3. 삭제\n4. 테이블 조회\n5. 종료\n→ ";
 		cin >> c;
+		
+		switch (c) {
+		case '1':
+			cout << "Key, Data 입력 ";
+			cin >> key >> data;
+			if (hashAdd(key, data)) cout << "입력 완료\n";
+			else cout << "해시가 가득 찼음\n";
+			break;
 
 		
