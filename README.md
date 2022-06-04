@@ -16,7 +16,7 @@
 
 ## 구성 요소
 
-* Client.DLL - 
+* Client.DLL - 안티 탬퍼
 * Backend.exe - 서버 프로그램.
 
 ## 빌드 방법
