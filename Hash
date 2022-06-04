@@ -71,10 +71,14 @@ int hashFind(char key[], int* data) {
 	ll h = hashGen(key);
 	int cnt = MAX_TABLE;
 	
+	while (table[h].key[0] != 0 && cnt--) {
+		if (!m_strcmp(table[h].key, key)) {
+			*data = table[h].data;
 int main(void) {
 	while (true) {
 		char key[64];
-		int data;
+		int
+		data;
 		char c;
 		cout << "\n1. 삽입\n2. 찾기\n3. 삭제\n4. 테이블 조회\n5. 종료\n→ ";
 		cin >> c;
