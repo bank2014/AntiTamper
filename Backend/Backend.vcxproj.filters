@@ -16,16 +16,49 @@
     <ClCompile Include="pch.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Ban.cpp">
+    <ClCompile Include="BackendCommon.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="BackendServer.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="BanStore.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientRegistry.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtocolHandler.cpp">
       <Filter>Features</Filter>
     </ClCompile>
     <ClCompile Include="Server.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="SingleInstanceGuard.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BackendCommon.h">
+      <Filter>Features</Filter>
+    </ClInclude>
+    <ClInclude Include="BackendServer.h">
+      <Filter>Features</Filter>
+    </ClInclude>
+    <ClInclude Include="BanStore.h">
+      <Filter>Features</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientRegistry.h">
+      <Filter>Features</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtocolHandler.h">
+      <Filter>Features</Filter>
+    </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleInstanceGuard.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
