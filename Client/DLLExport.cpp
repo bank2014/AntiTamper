@@ -8,3 +8,9 @@ extern "C" DECLSPEC int AntiTampermain()
 	return antiTamper->main();
 }
 
+extern "C" DECLSPEC const char* AntiTamperClientGuid()
+{
+	static string guid = AntiTamperIdentity::GetClientGuid();
+	return guid.c_str();
+}
+

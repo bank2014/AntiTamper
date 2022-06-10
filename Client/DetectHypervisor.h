@@ -1,6 +1,9 @@
 #pragma once
 #include "Struct.h"
 #include "typecast.h"
+#include <algorithm>
+#include <cwctype>
+#include <string>
 
 EXTERN_C NTSTATUS NTAPI
 NtQuerySystemInformation(
@@ -15,6 +18,109 @@ EXTERN_C __int16 LazyCheckHyperv();
 EXTERN_C void TrapflagCheck();
 
 namespace DetectHyp {
+
+	inline bool CpuidIsHyperv();
+
+	inline std::string GetHypervisorVendor()
+	{
+		if (!CpuidIsHyperv())
+			return std::string();
+
+		INT CPUInfo[4] = { -1 };
+		CHAR szHypervisorVendor[13] = {};
+
+		__cpuid(CPUInfo, 0x40000000);
+		memcpy(szHypervisorVendor, CPUInfo + 1, 12);
+
+		return std::string(szHypervisorVendor);
+	}
+
+	inline bool IsKnownHypervisorVendor(const std::string& vendor)
+	{
+		return vendor == "KVMKVMKVM"
+			|| vendor == "Microsoft Hv"
+			|| vendor == "VMwareVMware"
+			|| vendor == "XenVMMXenVMM"
+			|| vendor == "prl hyperv  "
+			|| vendor == "VBoxVBoxVBox";
+	}
+
+	inline bool IsMicrosoftHypervisorVendor(const std::string& vendor)
+	{
+		return vendor == "Microsoft Hv";
+	}
+
+	inline bool ContainsIgnoreCase(const std::wstring& value, const std::wstring& needle)
+	{
+		std::wstring normalizedValue = value;
+		std::wstring normalizedNeedle = needle;
+
+		std::transform(normalizedValue.begin(), normalizedValue.end(), normalizedValue.begin(),
+			[](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
+		std::transform(normalizedNeedle.begin(), normalizedNeedle.end(), normalizedNeedle.begin(),
+			[](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
+
+		return normalizedValue.find(normalizedNeedle) != std::wstring::npos;
+	}
+
+	inline bool RegistryValueContainsAnyVirtualMachineMarker(LPCWSTR valueName)
+	{
+		WCHAR value[256] = {};
+		DWORD valueSize = sizeof(value);
+		DWORD valueType = 0;
+
+		LONG status = ::RegGetValueW(
+			HKEY_LOCAL_MACHINE,
+			L"HARDWARE\\DESCRIPTION\\System\\BIOS",
+			valueName,
+			RRF_RT_REG_SZ,
+			&valueType,
+			value,
+			&valueSize);
+
+		if (status != ERROR_SUCCESS || value[0] == L'\0')
+			return false;
+
+		const std::wstring currentValue(value);
+		const std::wstring markers[] = {
+			L"virtual machine",
+			L"vmware",
+			L"virtualbox",
+			L"vbox",
+			L"kvm",
+			L"qemu",
+			L"xen",
+			L"parallels",
+			L"hyper-v",
+			L"hyperv"
+		};
+
+		for (const std::wstring& marker : markers)
+		{
+			if (ContainsIgnoreCase(currentValue, marker))
+				return true;
+		}
+
+		return false;
+	}
+
+	inline bool HasKnownVirtualMachineFirmware()
+	{
+		const LPCWSTR biosValues[] = {
+			L"SystemManufacturer",
+			L"SystemProductName",
+			L"BaseBoardManufacturer",
+			L"BIOSVendor"
+		};
+
+		for (LPCWSTR valueName : biosValues)
+		{
+			if (RegistryValueContainsAnyVirtualMachineMarker(valueName))
+				return true;
+		}
+
+		return false;
+	}
 
 	inline bool RdtscpSupport()
 	{
@@ -32,9 +138,9 @@ namespace DetectHyp {
 
 	inline bool RdtscCpu()
 	{
-		DWORD tsc1 = 0;
-		DWORD tsc2 = 0;
-		DWORD avg = 0;
+		ULONGLONG tsc1 = 0;
+		ULONGLONG tsc2 = 0;
+		ULONGLONG avg = 0;
 		INT cpuInfo[4] = {};
 		for (INT i = 0; i < 10; i++)
 		{
@@ -50,9 +156,9 @@ namespace DetectHyp {
 	inline bool Rdtscp()
 	{
 		unsigned int  flag = 0;
-		DWORD tscp1 = 0;
-		DWORD tscp2 = 0;
-		DWORD avg = 0;
+		ULONGLONG tscp1 = 0;
+		ULONGLONG tscp2 = 0;
+		ULONGLONG avg = 0;
 		INT cpuid[4] = {};
 
 		if (DetectHyp::RdtscpSupport()) {
@@ -147,41 +253,7 @@ namespace DetectHyp {
 
 	inline bool CheckKnowHypervisor()
 	{
-		INT CPUInfo[4] = { -1 };
-		CHAR szHypervisorVendor[0x40];
-		WCHAR* pwszConverted;
-
-		BOOL bResult = FALSE;
-
-		const TCHAR* szBlacklistedHypervisors[] = {
-			(L"KVMKVMKVM\0\0\0"),	//KVM
-			(L"Microsoft Hv"),		//Microsoft Hyper-V | Windows Virtual PC
-			(L"VMwareVMware"),		//VMware
-			(L"XenVMMXenVMM"),		//Xen
-			(L"prl hyperv  "),		//Parallels
-			(L"VBoxVBoxVBox"),		//VirtualBox
-		};
-
-		WORD dwlength = sizeof(szBlacklistedHypervisors) / sizeof(szBlacklistedHypervisors[0]);
-
-		__cpuid(CPUInfo, 0x40000000);
-		memset(szHypervisorVendor, 0, sizeof(szHypervisorVendor));
-		memcpy(szHypervisorVendor, CPUInfo + 1, 12);
-
-		for (int i = 0; i < dwlength; i++)
-		{
-			pwszConverted = typeCast::CharToWChar_T(szHypervisorVendor);
-			if (pwszConverted) {
-
-				bResult = (wcscmp(pwszConverted, szBlacklistedHypervisors[i]) == 0); // 이름 비교
-
-				free(pwszConverted);
-
-				if (bResult)
-					return TRUE;
-			}
-		}
-		return FALSE;
+		return IsKnownHypervisorVendor(GetHypervisorVendor());
 	}
 
 	// https://pastebin.com/2gv72r7d

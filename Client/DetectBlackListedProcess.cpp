@@ -1,9 +1,75 @@
 #include "pch.h"
 
+#include <algorithm>
+#include <cwctype>
+#include <tlhelp32.h>
 
 // 프로그램 목록 중 아래 string이 발견되면 return true
 bool IsBlacklistedProgramPresent()
 {
+	const vector<std::wstring> badProcessNames = {
+		L"ollydbg.exe",
+		L"ida.exe",
+		L"ida64.exe",
+		L"idag.exe",
+		L"idag64.exe",
+		L"idaw.exe",
+		L"idaw64.exe",
+		L"idaq.exe",
+		L"idaq64.exe",
+		L"idau.exe",
+		L"idau64.exe",
+		L"scylla.exe",
+		L"scylla_x64.exe",
+		L"scylla_x86.exe",
+		L"protection_id.exe",
+		L"x64dbg.exe",
+		L"x32dbg.exe",
+		L"x96dbg.exe",
+		L"windbg.exe",
+		L"reshacker.exe",
+		L"importrec.exe",
+		L"immunitydebugger.exe",
+		L"megadumper.exe",
+		L"cheatengine-x86_64.exe",
+		L"processhacker.exe",
+		L"procmon.exe",
+		L"procmon64.exe",
+		L"hxd.exe",
+		L"wireshark.exe"
+	};
+
+	HANDLE snapshot = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if (snapshot == INVALID_HANDLE_VALUE)
+		return false;
+
+	PROCESSENTRY32W entry{};
+	entry.dwSize = sizeof(entry);
+
+	if (!::Process32FirstW(snapshot, &entry))
+	{
+		::CloseHandle(snapshot);
+		return false;
+	}
+
+	do
+	{
+		std::wstring exeName(entry.szExeFile);
+		std::transform(exeName.begin(), exeName.end(), exeName.begin(),
+			[](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
+
+		for (const std::wstring& badName : badProcessNames)
+		{
+			if (exeName == badName)
+			{
+				std::wcout << L"[client] Blacklisted process detected: " << exeName << endl;
+				::CloseHandle(snapshot);
+				return true;
+			}
+		}
+	} while (::Process32NextW(snapshot, &entry));
+
+	::CloseHandle(snapshot);
 	return false;
 }
 

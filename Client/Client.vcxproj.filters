@@ -30,8 +30,35 @@
     <ClInclude Include="DLLExport.h">
       <Filter>Main</Filter>
     </ClInclude>
+    <ClInclude Include="ClientIdentity.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientNetworkRules.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientShutdown.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="AntivirusState.h">
+      <Filter>Features</Filter>
+    </ClInclude>
     <ClInclude Include="DetectHypervisor.h">
       <Filter>Features\Detect_hypervisor</Filter>
+    </ClInclude>
+    <ClInclude Include="Violation.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiTamperNetwork.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="PeIntegrity.h">
+      <Filter>Features</Filter>
+    </ClInclude>
+    <ClInclude Include="PeManifestPublicKey.generated.h">
+      <Filter>Features</Filter>
+    </ClInclude>
+    <ClInclude Include="ViolationScanner.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -50,13 +77,13 @@
     <ClCompile Include="Detect_AntiVirus.cpp">
       <Filter>Features</Filter>
     </ClCompile>
-    <ClCompile Include="DeleteMyself.cpp">
-      <Filter>Features</Filter>
-    </ClCompile>
     <ClCompile Include="BSOD.cpp">
       <Filter>Features</Filter>
     </ClCompile>
     <ClCompile Include="DetectBlackListedProcess.cpp">
+      <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="DetectPeTamper.cpp">
       <Filter>Features</Filter>
     </ClCompile>
     <ClCompile Include="FetchUUID.cpp">
@@ -70,6 +97,15 @@
     </ClCompile>
     <ClCompile Include="CheckSecureBoot.cpp">
       <Filter>Features</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiTamperNetwork.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientShutdown.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="ViolationScanner.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

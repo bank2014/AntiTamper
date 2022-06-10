@@ -10,4 +10,5 @@
 #endif
 
 extern "C" DECLSPEC int AntiTampermain();
+extern "C" DECLSPEC const char* AntiTamperClientGuid();
 

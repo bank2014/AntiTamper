@@ -31,19 +31,16 @@ bool ResCheckTrapFlag()
 
 bool IsDebugging()
 {
-	uint8 status = 0;
-	status = ResCheckTrapFlag();
-	::IsDebuggerPresent();
+	BOOL remoteDebugger = FALSE;
+	::CheckRemoteDebuggerPresent(::GetCurrentProcess(), &remoteDebugger);
 
-	switch (status)
-	{
-	case 1: // no evasion, only debugging attempt
+	const bool apiDetected = ::IsDebuggerPresent() || remoteDebugger;
+	const bool trapFlagAnomaly = ResCheckTrapFlag();
 
-		break;
-	case 2: // evasion detected
+	if (apiDetected)
+		cout << "[client] Debugger detected" << endl;
+	else if (trapFlagAnomaly)
+		cout << "[client] Trap flag anomaly observed; not treating it as debugger by itself" << endl;
 
-		break;
-	}
-
-	return false;
+	return apiDetected;
 }

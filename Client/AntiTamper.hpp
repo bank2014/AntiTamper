@@ -1,5 +1,7 @@
 #pragma once
 #include "CorePch.h"
+#include "AntiTamperNetwork.h"
+#include "Violation.h"
 
 
 class AntiTamper
@@ -9,10 +11,12 @@ public:
 	int main();
 
 public:
-	void SendUserInfo(SOCKET clientSocket);
-	
-	void ViolationDetected(int severity,SOCKET clientSocket);
+	bool SendUserInfo(SOCKET clientSocket);
 
-	void ValidateExecution(SOCKET clientSocket, SOCKADDR_IN serverAddr, bool IsSendUserInfoTrue);
+	bool SendHeartbeat(SOCKET clientSocket);
+	
+	bool ViolationDetected(SOCKET clientSocket, const Violation& violation);
+
+	bool ValidateExecution(SOCKET clientSocket, const SOCKADDR_IN& serverAddr, bool sendInitialCheck);
 
 };

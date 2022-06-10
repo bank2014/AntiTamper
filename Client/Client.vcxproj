@@ -71,6 +71,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
+    <PreBuildEvent>
+      <Command>powershell -NoProfile -ExecutionPolicy Bypass -File "$(SolutionDir)Tools\WritePeManifestPublicKeyHeader.ps1" -HeaderPath "$(ProjectDir)PeManifestPublicKey.generated.h" -Configuration "$(Configuration)"</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>powershell -NoProfile -ExecutionPolicy Bypass -File "$(SolutionDir)Tools\WritePeManifest.ps1" -TargetPath "$(TargetPath)" -ManifestPath "$(TargetDir)AntiTamperPeHash.txt" -PublicKeyHeaderPath "$(ProjectDir)PeManifestPublicKey.generated.h" -Configuration "$(Configuration)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -91,6 +97,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
+    <PreBuildEvent>
+      <Command>powershell -NoProfile -ExecutionPolicy Bypass -File "$(SolutionDir)Tools\WritePeManifestPublicKeyHeader.ps1" -HeaderPath "$(ProjectDir)PeManifestPublicKey.generated.h" -Configuration "$(Configuration)"</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>powershell -NoProfile -ExecutionPolicy Bypass -File "$(SolutionDir)Tools\WritePeManifest.ps1" -TargetPath "$(TargetPath)" -ManifestPath "$(TargetDir)AntiTamperPeHash.txt" -PublicKeyHeaderPath "$(ProjectDir)PeManifestPublicKey.generated.h" -Configuration "$(Configuration)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AntiTamper.hpp" />
@@ -98,13 +110,24 @@
     <ClInclude Include="typecast.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="DLLExport.h" />
+    <ClInclude Include="ClientIdentity.h" />
+    <ClInclude Include="ClientNetworkRules.h" />
+    <ClInclude Include="ClientShutdown.h" />
+    <ClInclude Include="AntivirusState.h" />
+    <ClInclude Include="AntiTamperNetwork.h" />
+    <ClInclude Include="PeIntegrity.h" />
+    <ClInclude Include="PeManifestPublicKey.generated.h" />
     <ClInclude Include="Struct.h" />
+    <ClInclude Include="Violation.h" />
+    <ClInclude Include="ViolationScanner.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AntiTamperNetwork.cpp" />
     <ClCompile Include="BSOD.cpp" />
+    <ClCompile Include="ClientShutdown.cpp" />
     <ClCompile Include="CheckSecureBoot.cpp" />
-    <ClCompile Include="DeleteMyself.cpp" />
     <ClCompile Include="DetectBlackListedProcess.cpp" />
+    <ClCompile Include="DetectPeTamper.cpp" />
     <ClCompile Include="DetectHypervisor.cpp" />
     <ClCompile Include="Detect_AntiVirus.cpp" />
     <ClCompile Include="Detect_Debugging.cpp" />
@@ -112,6 +135,7 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="FetchUUID.cpp" />
     <ClCompile Include="AntiTamper.cpp" />
+    <ClCompile Include="ViolationScanner.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
