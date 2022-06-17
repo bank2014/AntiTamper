@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\Backend\BackendCommon.cpp" />
+    <ClCompile Include="..\Backend\BackendServer.cpp" />
+    <ClCompile Include="..\Backend\BanStore.cpp" />
+    <ClCompile Include="..\Backend\ClientRegistry.cpp" />
+    <ClCompile Include="..\Backend\ProtocolHandler.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+</Project>
